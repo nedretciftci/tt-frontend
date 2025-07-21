@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
+import AdminDashboard from "./pages/AdminDashboard";
+import EmployeeDashboard from "./pages/EmployeeDashboard";
 
 function AppLayout() {
   const location = useLocation();
@@ -13,9 +15,8 @@ function AppLayout() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        {/* Dashboard route örneği, gerçek dashboard componentini ekleyebilirsin */}
-        {/* <Route path="/dashboard/admin" element={<AdminDashboard />} /> */}
-        {/* <Route path="/dashboard/employee" element={<EmployeeDashboard />} /> */}
+        <Route path="/dashboard/admin" element={<AdminDashboard />} />
+        <Route path="/dashboard/employee" element={<EmployeeDashboard />} />
       </Routes>
       <Footer />
     </>
