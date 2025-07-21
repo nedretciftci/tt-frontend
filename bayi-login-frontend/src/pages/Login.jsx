@@ -16,10 +16,11 @@ function Login() {
 
     try {
       const res = await login(email, password); // backend'e istek atar
-      const { token, role } = res.data;
+      const { token, role, username } = res.data;
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("username", username);
 
       if (role === "ADMIN") {
         navigate("/dashboard/admin");
