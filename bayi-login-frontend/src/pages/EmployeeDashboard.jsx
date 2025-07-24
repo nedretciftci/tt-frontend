@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
-// import logo from "../assets/images/logo.png"; // logo no longer needed here
+import Menu from "../components/Menu";
 
 const stats = [
   { label: "Daily Revenue", value: "$12,500" },
@@ -75,7 +75,7 @@ const TaskCard = ({ tasks }) => (
   </div>
 );
 
-const MenuButton = () => (
+const MenuButton = ({ onClick }) => (
   <button style={{
     background: 'none',
     border: 'none',
@@ -87,7 +87,7 @@ const MenuButton = () => (
     height: 40,
     width: 40,
     justifyContent: 'center',
-  }} aria-label="Menu">
+  }} aria-label="Menu" onClick={onClick}>
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="5" width="28" height="3.5" rx="1.75" fill="#005cb9"/>
       <rect y="12.25" width="28" height="3.5" rx="1.75" fill="#005cb9"/>
@@ -96,38 +96,40 @@ const MenuButton = () => (
   </button>
 );
 
-const EmployeeDashboard = () => (
-  <div style={{ minHeight: '100vh', background: '#f6f7fa' }}>
-    <Header />
-    <div style={{ padding: '100px 32px 32px 32px', maxWidth: 1200, margin: '0 auto' }}>
-      {/* Welcome + Menu Row */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 32, marginLeft: 0 }}>
-        {/* Left align under logo: add left margin to match logo's left edge */}
-        <div style={{ width: 72 }} />
-        <MenuButton />
-        <div style={{ fontSize: 28, fontWeight: 700, color: '#222' }}>
+const EmployeeDashboard = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  return (
+    <div style={{ minHeight: '100vh', background: '#f6f7fa' }}>
+      <Header />
+      <Menu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      {/* Welcome + Menu Row: menu button and welcome text side by side */}
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: 72, marginLeft: 16, marginBottom: 32 }}>
+        {!menuOpen && <MenuButton onClick={() => setMenuOpen(true)} />}
+        <div style={{ fontSize: 28, fontWeight: 700, color: '#222', marginLeft: 18 }}>
           Welcome, <span style={{ color: '#005cb9' }}>{localStorage.getItem("username") || "User"}</span>
         </div>
       </div>
-      {/* Stat Cards */}
-      <div style={{ display: 'flex', flexDirection: 'row', gap: 0, marginBottom: 36, justifyContent: 'space-between' }}>
-        {stats.map((s, i) => <StatCard key={i} label={s.label} value={s.value} />)}
-      </div>
-      {/* Bottom two large cards */}
-      <div style={{ display: 'flex', flexDirection: 'row', gap: 32, marginTop: 8 }}>
-        {/* Weekly Sales Performance */}
-        <div style={{ flex: 1.2, background: '#fff', borderRadius: 18, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 32, minHeight: 260, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18, color: '#222' }}>Weekly Sales Performance</div>
-          <BarChart data={weeklySales} labels={days} />
+      <div style={{ padding: '0 32px', maxWidth: 1200, margin: '0 auto' }}>
+        {/* Stat Cards */}
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 0, marginBottom: 36, justifyContent: 'space-between' }}>
+          {stats.map((s, i) => <StatCard key={i} label={s.label} value={s.value} />)}
         </div>
-        {/* Upcoming Tasks */}
-        <div style={{ flex: 1, background: '#fff', borderRadius: 18, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 32, minHeight: 260, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18, color: '#222' }}>Upcoming Tasks</div>
-          <TaskCard tasks={tasks} />
+        {/* Bottom two large cards */}
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 32, marginTop: 8 }}>
+          {/* Weekly Sales Performance */}
+          <div style={{ flex: 1.2, background: '#fff', borderRadius: 18, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 32, minHeight: 260, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18, color: '#222' }}>Weekly Sales Performance</div>
+            <BarChart data={weeklySales} labels={days} />
+          </div>
+          {/* Upcoming Tasks */}
+          <div style={{ flex: 1, background: '#fff', borderRadius: 18, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 32, minHeight: 260, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18, color: '#222' }}>Upcoming Tasks</div>
+            <TaskCard tasks={tasks} />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default EmployeeDashboard; 

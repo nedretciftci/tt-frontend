@@ -12,3 +12,11 @@ export const login = async (email, password) => {
 export const logout = async () => {
   return axios.post(`${API_URL}/api/auth/logout`);
 };
+
+export const getAllUsers = async (token) => {
+  return axios.get(`${API_URL}/api/auth/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

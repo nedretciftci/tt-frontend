@@ -7,7 +7,9 @@ const Header = () => {
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
   const username = localStorage.getItem("username") || "";
-  const role = localStorage.getItem("role") || "";
+  const role = (localStorage.getItem("role") || "").toLowerCase();
+  const isAdmin = role === "admin";
+  const mainColor = isAdmin ? "#b90000" : "#005cb9";
 
   const handleLogout = async () => {
     try {
@@ -34,16 +36,16 @@ const Header = () => {
     }}>
       {/* Logo */}
       <img src={logo} alt="Logo" style={{ height: 40 }} />
-      {/* Sağ taraf */}
+      {/* right side */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, maxWidth: 220, minWidth: 120, justifyContent: 'flex-end', marginRight: 50 }}>
         <div style={{ textAlign: 'right', marginRight: 8, minWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          <div style={{ fontWeight: 600, fontSize: 16, wordBreak: 'break-all', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 120 }}>{username}</div>
-          <div style={{ fontSize: 13, color: '#888' }}>{role}</div>
+          <div style={{ fontWeight: 600, fontSize: 16, wordBreak: 'break-all', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 120, color: mainColor }}>{username}</div>
+          <div style={{ fontSize: 13, color: mainColor, fontWeight: 600 }}>{role.toUpperCase()}</div>
         </div>
         <button
           onClick={() => setShowDialog(true)}
           style={{
-            background: '#005cb9',
+            background: mainColor,
             color: '#fff',
             border: 'none',
             borderRadius: 6,
